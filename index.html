@@ -1,112 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Verification</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(to right, #6a1b9a, #8e24aa);
-            margin: 0;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        .header {
-            font-size: 20px;
-            font-weight: bold;
-            color: #6a1b9a;
-        }
-        .math-problem {
-            font-size: 24px;
-            margin: 20px 0;
-        }
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        .verify-button, .clear-button {
-            background-color: #8e24aa;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        .verify-button:hover, .clear-button:hover {
-            background-color: #6a1b9a;
-        }
-        .footer {
-            font-size: 12px;
-            color: #999;
-            margin-top: 10px;
-        }
-    </style>
+  <title>Human Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f9f9f9;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+      margin: auto;
+    }
+    input {
+      padding: 8px;
+      width: 60px;
+      text-align: center;
+    }
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            Human Verification
-        </div>
-        <p>Please solve this math problem to prove you're not a robot</p>
-        <div class="math-problem" id="math-problem">
-            <!-- Dynamic problem will appear here -->
-        </div>
-        <input type="number" id="user-answer" class="input-field" placeholder="Your answer">
-        <button onclick="verifyAnswer()" class="verify-button">Verify</button>
-        <button onclick="clearAnswer()" class="clear-button">Clear</button>
-        <div class="footer">
-            This helps prevent automated programs from accessing the system
-        </div>
-    </div>
 
-    <script>
-        var num1, num2, correctAnswer;
+<div class="container">
+  <h2>Human Verification</h2>
+  <p>Please solve this math problem to prove you're not a robot</p>
+  <p id="question"></p>
+  <input type="number" id="answer" placeholder="?">
+  <br>
+  <button onclick="checkAnswer()">Verify</button>
+  <p id="result"></p>
+</div>
 
-        // Function to generate a random math problem
-        function generateMathProblem() {
-            num1 = Math.floor(Math.random() * 20) + 1; // Random number between 1 and 20
-            num2 = Math.floor(Math.random() * 20) + 1; // Random number between 1 and 20
-            correctAnswer = num1 + num2;
+<script>
+  // Generate random numbers for the challenge
+  let num1 = Math.floor(Math.random() * 10) + 1;
+  let num2 = Math.floor(Math.random() * 10) + 1;
+  document.getElementById("question").innerText = `${num1} + ${num2} = ?`;
 
-            document.getElementById('math-problem').textContent = `${num1} + ${num2} = ?`;
-        }
+  function checkAnswer() {
+    let userAnswer = document.getElementById("answer").value;
+    let correctAnswer = num1 + num2;
+    if (parseInt(userAnswer) === correctAnswer) {
+      document.getElementById("result").innerText = "✅ Verification successful!";
+    } else {
+      document.getElementById("result").innerText = "❌ Wrong answer. Try again.";
+    }
+  }
+</script>
 
-        // Function to verify the answer
-        function verifyAnswer() {
-            var userAnswer = document.getElementById('user-answer').value;
-            if (parseInt(userAnswer) === correctAnswer) {
-                alert("Verification successful!");
-                generateMathProblem(); // Generate a new problem after success
-                document.getElementById('user-answer').value = ''; // Clear input
-            } else {
-                alert("Incorrect answer, please try again.");
-            }
-        }
-
-        // Function to clear the answer
-        function clearAnswer() {
-            document.getElementById('user-answer').value = '';
-        }
-
-        // Generate the first problem on page load
-        window.onload = generateMathProblem;
-    </script>
 </body>
 </html>
